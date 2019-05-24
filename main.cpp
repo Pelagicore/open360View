@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     cv::UMat *camera_in_mats = framegrabber.getUMatFromFramebuffers();
     cv::UMat camera_out_mats[NUM_CAMERAS];
 
-    for (i = 0; i < NUM_CAMERAS; i) {
+    for (i = 0; i < NUM_CAMERAS; i++) {
         defish.fisheyeDewarp(&camera_in_mats[i], &camera_out_mats[i]);
     }
 
