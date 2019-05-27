@@ -11,5 +11,7 @@ Window {
 
     CameraStream {
         id: videofeed
+        anchors.fill: parent
+        visible: true
     }
 }

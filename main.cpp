@@ -8,10 +8,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 
+    qDebug("Register type CameraStream");
     qmlRegisterType<CameraStream>("surroundview", 0, 1, "CameraStream");
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("SurroundView.qml"));
+    const QUrl url(QStringLiteral("qrc:/SurroundView.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
@@ -19,5 +20,6 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
+    qDebug("Start application");
     return app.exec();
 }

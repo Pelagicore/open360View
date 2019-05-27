@@ -7,18 +7,21 @@
 
 #include "framegrabber.h"
 
+#include <QDebug>
+
 Framegrabber::Framegrabber(uint32_t num_cameras, uint32_t width, uint32_t height, uint32_t num_color_channels)
     :framebufferSize(width * height * num_color_channels), num_cameras(num_cameras)
 {
+    qDebug("Entering %s", __func__);
     uint32_t i;
 
-    // Initialize camera_framebuffers
+    qDebug("Initialize camera_framebuffers");
     camera_framebuffers = new uint8_t* [num_cameras];
     for(i = 0; i < num_cameras; i++) {
         camera_framebuffers[i] = new uint8_t[framebufferSize];
     }
 
-    // Initialize camera_umats 
+    qDebug("Initialize camera_umats");
     camera_umats = new cv::UMat[num_cameras];
     for (i = 0; i < num_cameras; i++) {
         cv::Mat(static_cast<int>(height),
@@ -31,6 +34,7 @@ Framegrabber::Framegrabber(uint32_t num_cameras, uint32_t width, uint32_t height
 
 int Framegrabber::update()
 {
+    qDebug("Entering %s", __func__);
     int framegrabber_fd;
     uint32_t camera_nr;
     int ret;

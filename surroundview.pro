@@ -17,4 +17,6 @@ HEADERS +=         \
     defish.h       \
     camerastream.h       \
 
-OTHER_FILES += SurroundView.qml
+#OTHER_FILES += SurroundView.qml
+
+RESOURCES += qml.qrc

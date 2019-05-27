@@ -18,8 +18,7 @@ void CameraStream::read_images_fromfile()
 
     for (i = 0; i < NUM_CAMERAS; i++) {
         snprintf(image_filename, 20, "camera_%d.png", i);
-        printf("%d\n", i);
-        cv::imread(image_filename, 1).copyTo(camera_in_mats[i]);
+        cv::imread(image_filename).copyTo(camera_in_mats[i]);
     }
 
 }
@@ -32,6 +31,7 @@ CameraStream::CameraStream(QQuickItem* parent)
     camera_in_mats = new cv::UMat[NUM_CAMERAS];
     camera_out_mats = new cv::UMat[NUM_CAMERAS];
 
+    this->setFlag(QQuickItem::ItemHasContents, true);
     read_images_fromfile();
 }
 
@@ -57,11 +57,10 @@ QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
         defish.fisheyeDewarp(&camera_in_mats[i], &camera_out_mats[i]);
     }
 
-    printf("");
-    m_image = new QImage(camera_in_mats[0].getMat(cv::AccessFlag::ACCESS_READ).data,
-                         camera_in_mats[0].cols,
-                         camera_in_mats[0].rows,
-                         camera_in_mats[0].step,
+    m_image = new QImage(camera_out_mats[0].getMat(cv::AccessFlag::ACCESS_READ).data,
+                         camera_out_mats[0].cols,
+                         camera_out_mats[0].rows,
+                         camera_out_mats[0].step,
                          QImage::Format_RGB888);
 
     QImage resizedImage = m_image->scaled(width(), height(), Qt::KeepAspectRatio);
