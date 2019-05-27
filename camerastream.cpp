@@ -52,6 +52,10 @@ CameraStream::CameraStream(QQuickItem* parent)
     m_renderTimer.start();
 }
 
+void CameraStream::nextImage() {
+    current_cam = (current_cam + 1) % NUM_CAMERAS;
+}
+
 CameraStream::~CameraStream()
 {
     delete m_image;
@@ -74,10 +78,10 @@ QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
         defish.fisheyeDewarp(&camera_in_mats[i], &camera_out_mats[i]);
     }
 
-    m_image = new QImage(camera_out_mats[0].getMat(cv::AccessFlag::ACCESS_READ).data,
-                         camera_out_mats[0].cols,
-                         camera_out_mats[0].rows,
-                         camera_out_mats[0].step,
+    m_image = new QImage(camera_out_mats[current_cam].getMat(cv::AccessFlag::ACCESS_READ).data,
+                         camera_out_mats[current_cam].cols,
+                         camera_out_mats[current_cam].rows,
+                         camera_out_mats[current_cam].step,
                          QImage::Format_RGB888);
 
     QImage resizedImage = m_image->scaled(width(), height(), Qt::KeepAspectRatio);

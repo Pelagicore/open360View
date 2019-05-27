@@ -17,6 +17,8 @@ public:
     CameraStream(QQuickItem* parent = nullptr);
     virtual ~CameraStream();
 
+    Q_INVOKABLE void nextImage();
+
 protected:
     QSGNode* updatePaintNode(QSGNode*, UpdatePaintNodeData*) override;
 
@@ -31,6 +33,7 @@ private:
     Defish defish;
     Framegrabber framegrabber;
 
+    int current_cam = 0;
     QImage *m_image;
     void cameraVisibleChanged();
 };

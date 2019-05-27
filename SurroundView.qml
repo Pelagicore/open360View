@@ -13,5 +13,11 @@ Window {
         id: videofeed
         anchors.fill: parent
         visible: true
+
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: videofeed.nextImage();
+        }
     }
 }
