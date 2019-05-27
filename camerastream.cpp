@@ -84,6 +84,7 @@ QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
                          camera_out_mats[current_cam].step,
                          QImage::Format_RGB888);
 
+    *m_image = m_image->rgbSwapped();
     QImage resizedImage = m_image->scaled(width(), height(), Qt::KeepAspectRatio);
 
     auto texture = win->createTextureFromImage(resizedImage);
