@@ -18,7 +18,7 @@ Framegrabber::Framegrabber(uint32_t num_cameras, uint32_t width, uint32_t height
         camera_framebuffers[i] = new uint8_t[framebufferSize];
     }
 
-    // Initialize camera_umats
+    // Initialize camera_umats 
     camera_umats = new cv::UMat[num_cameras];
     for (i = 0; i < num_cameras; i++) {
         cv::Mat(static_cast<int>(height),
