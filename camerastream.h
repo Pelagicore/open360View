@@ -7,6 +7,7 @@
 #include <QImage>
 #include <QQuickItem>
 #include <QSGSimpleRectNode>
+#include <QTimer>
 
 class CameraStream : public QQuickItem
 {
@@ -25,8 +26,11 @@ private:
     cv::UMat *camera_in_mats;
     cv::UMat *camera_out_mats;
 
+    QTimer m_renderTimer;
+
     Defish defish;
     Framegrabber framegrabber;
 
     QImage *m_image;
+    void cameraVisibleChanged();
 };

@@ -23,16 +23,33 @@ void CameraStream::read_images_fromfile()
 
 }
 
+void CameraStream::cameraVisibleChanged()
+{
+    if (isVisible()) {
+        qDebug("is visible");
+        m_renderTimer.start();
+    } else {
+        m_renderTimer.stop();
+    }
+}
+
 CameraStream::CameraStream(QQuickItem* parent)
     : QQuickItem(parent),
     defish(WIDTH, HEIGHT, WIDTH * 2, HEIGHT * 2, NUM_COLOR_CHANNELS),
     framegrabber(NUM_CAMERAS, WIDTH, HEIGHT, NUM_COLOR_CHANNELS)
 {
+    m_renderTimer.setInterval(30);
+    m_renderTimer.setSingleShot(false);
+
+    connect(this, &QQuickItem::visibleChanged, this, &CameraStream::cameraVisibleChanged);
+    connect(&m_renderTimer, &QTimer::timeout, this, &QQuickItem::update);
+
     camera_in_mats = new cv::UMat[NUM_CAMERAS];
     camera_out_mats = new cv::UMat[NUM_CAMERAS];
 
     this->setFlag(QQuickItem::ItemHasContents, true);
     read_images_fromfile();
+    m_renderTimer.start();
 }
 
 CameraStream::~CameraStream()
