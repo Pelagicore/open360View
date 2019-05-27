@@ -11,12 +11,12 @@ public:
     int update();
     cv::UMat *getUMatFromFramebuffers();
 
-    const uint32_t width;
-    const uint32_t height;
     const unsigned int framebufferSize;
     const uint32_t num_cameras;
 
 private:
 
+    // Number of UMats should be equal to the number of cameras
+    cv::UMat *camera_umats;
     uint8_t **camera_framebuffers;
 };
