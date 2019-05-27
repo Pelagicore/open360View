@@ -21,9 +21,11 @@ protected:
 
 private:
     void read_images_fromfile();
+    cv::UMat stitch_mat(cv::UMat *camera_mats);
 
     cv::UMat *camera_in_mats;
     cv::UMat *camera_out_mats;
+    cv::UMat camera_stitched_mat;
 
     Defish defish;
     Framegrabber framegrabber;
