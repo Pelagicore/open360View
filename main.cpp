@@ -1,23 +1,18 @@
-#include "defish.h"
-#include "framegrabber.h"
+#include "camerastream.h"
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
-#define WIDTH 1280
-#define HEIGHT 1080
-#define NUM_CAMERAS 4
-#define NUM_COLOR_CHANNELS 3
-
 int main(int argc, char *argv[])
 {
-    int i;
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
 
+    qDebug("Register type CameraStream");
+    qmlRegisterType<CameraStream>("surroundview", 0, 1, "CameraStream");
+    QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/SurroundView.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
@@ -35,5 +30,6 @@ int main(int argc, char *argv[])
         defish.fisheyeDewarp(&camera_in_mats[i], &camera_out_mats[i]);
     }
 
+    qDebug("Start application");
     return app.exec();
 }

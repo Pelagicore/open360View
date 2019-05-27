@@ -15,7 +15,6 @@ class Defish {
 
 public:
   Defish(uint32_t src_width, uint32_t src_height, uint32_t dest_width, uint32_t dest_height, uint32_t num_color_channels);
-  //int fisheyeDewarp(uint8_t *inBuf, uint8_t *outBuf);
   int fisheyeDewarp(cv::UMat *inMat, cv::UMat *outMat);
   virtual ~Defish() = default;
 

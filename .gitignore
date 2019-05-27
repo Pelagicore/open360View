@@ -1,1 +1,9 @@
 build/
+*png
+*user
+Makefile
+moc_*
+*.o
+.qmake*
+surroundview
+qrc_qml.cpp
