@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <cstring>
 
+#define CL_TARGET_OPENCL_VERSION 120
+
 #include "camerastream.h"
 #include "opencv2/stitching.hpp"
 #include "opencv2/imgcodecs.hpp"
@@ -95,6 +97,8 @@ UMat CameraStream::stitch_mat(UMat* camera_mats) {
 QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
 {
     int i;
+    UMat pano;
+    UMat pano2;
     QQuickWindow *win = QQuickItem::window();
 
     QSGSimpleTextureNode *textureNode = static_cast<QSGSimpleTextureNode *>(oldNode);
