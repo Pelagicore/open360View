@@ -12,6 +12,8 @@
 
 #define WIDTH 1280
 #define HEIGHT 1080
+#define BORDER_ADD_X 100
+#define BORDER_ADD_Y 200
 #define NUM_CAMERAS 4
 #define NUM_COLOR_CHANNELS 3
 
@@ -21,21 +23,34 @@ using namespace cv;
 // (One out of many functions of Stitcher)
 cv::Stitcher::Mode mode = cv::Stitcher::PANORAMA;
 
+void addBorders (UMat *inMat,UMat *outMat) {
+    UMat withborders;
+    copyMakeBorder( *inMat, *outMat, BORDER_ADD_Y, BORDER_ADD_Y, BORDER_ADD_X, BORDER_ADD_X, BORDER_CONSTANT,Scalar(0,0,0));
+}
+
 void CameraStream::read_images_fromfile()
 {
     int i;
     char image_filename[20];
+    void addBorders (UMat *inMat,UMat *outMat);
+    UMat wbord;
 
     for (i = 0; i < NUM_CAMERAS; i++) {
         snprintf(image_filename, 20, "camera_%d.png", i);
         cv::imread(image_filename).copyTo(camera_in_mats[i]);
+        addBorders (&camera_in_mats[i],&wbord);
+        wbord.copyTo(camera_in_mats[i]);
     }
+    //imread("picture_0_c.png").copyTo(camera_in_mats[0]);
+    //imread("picture_1_c.png").copyTo(camera_in_mats[1]);
+    //imread("picture_2_c.png").copyTo(camera_in_mats[2]);
+    //imread("picture_3_c.png").copyTo(camera_in_mats[3]);
 
 }
 
 CameraStream::CameraStream(QQuickItem* parent)
     : QQuickItem(parent),
-    defish(WIDTH, HEIGHT, WIDTH * 2, HEIGHT * 2, NUM_COLOR_CHANNELS),
+    defish(WIDTH+BORDER_ADD_X*2, HEIGHT+BORDER_ADD_Y*2, (WIDTH+BORDER_ADD_X*2) * 2, (HEIGHT+BORDER_ADD_Y*2) * 2, NUM_COLOR_CHANNELS),
     framegrabber(NUM_CAMERAS, WIDTH, HEIGHT, NUM_COLOR_CHANNELS)
 {
     camera_in_mats = new cv::UMat[NUM_CAMERAS];
