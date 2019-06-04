@@ -87,7 +87,8 @@ UMat CameraStream::stitch_mat(UMat* camera_mats) {
         qDebug("Can't stitch images\n");
 //        return -1;
     }
-    hconcat(camera_mats[0],camera_mats[1],pano);
+    //hconcat(camera_mats[0],camera_mats[1],pano);
+    //hconcat(camera_mats[1],camera_mats[1],pano);
     return pano;
 }
 
@@ -106,14 +107,23 @@ QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
 
     for (i = 0; i < NUM_CAMERAS; i++) {
         defish.fisheyeDewarp(&camera_in_mats[i], &camera_out_mats[i]);
+        //camera_out_mats[i] = camera_in_mats[i];
     }
+    //imwrite("result0.jpg", camera_out_mats[0]);
+    //imwrite("result1.jpg", camera_out_mats[1]);
+    //imwrite("result2.jpg", camera_out_mats[2]);
+    //imwrite("result3.jpg", camera_out_mats[3]);
 
-    UMat stitched = stitch_mat(camera_out_mats);
+    //UMat stitched = stitch_mat(camera_in_mats);
 
-    m_image = new QImage(stitched.getMat(cv::AccessFlag::ACCESS_READ).data,
-                         stitched.cols,
-                         stitched.rows,
-                         stitched.step,
+    hconcat(camera_out_mats[0],camera_out_mats[3],pano);
+    hconcat(pano,camera_out_mats[2],pano2);
+    hconcat(pano2,camera_out_mats[1],pano);
+    //printf ("R = %d, C = %d, S = %d\n",pano.rows,pano.cols,pano.step);
+    m_image = new QImage(pano.getMat(cv::AccessFlag::ACCESS_READ).data,
+                         pano.cols,
+                         pano.rows,
+                         pano.step,
                          QImage::Format_RGB888);
 
 
