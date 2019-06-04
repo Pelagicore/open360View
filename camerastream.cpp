@@ -140,6 +140,8 @@ QSGNode* CameraStream::updatePaintNode(QSGNode* oldNode, UpdatePaintNodeData*)
 
     textureNode->setRect(0, 0, width(), height());
 
+    imwrite("result.jpg", pano);
+
     //m_framecount++;
 
     return textureNode;
