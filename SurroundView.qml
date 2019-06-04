@@ -5,8 +5,8 @@ import surroundview 0.1
 
 Window {
     visible: true
-    width: 640
-    height: 480
+    width: 1280
+    height: 540
     title: qsTr("Hello World")
 
     CameraStream {
