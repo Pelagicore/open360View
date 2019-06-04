@@ -8,6 +8,17 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/calib3d.hpp"
 #include "opencv2/imgproc.hpp"
+using namespace cv;
+
+typedef struct double2 {
+  double x;
+  double y;
+} double2;
+typedef struct double3 {
+  double x;
+  double y;
+  double z;
+} double3;
 
 class Defish {
   cv::Size origSize, dewarpSize;
@@ -17,5 +28,10 @@ public:
   Defish(uint32_t src_width, uint32_t src_height, uint32_t dest_width, uint32_t dest_height, uint32_t num_color_channels);
   int fisheyeDewarp(cv::UMat *inMat, cv::UMat *outMat);
   virtual ~Defish() = default;
+private:
+  void gen_front_maps(int cols, int rows, int width, int height, double crop, UMat* image_x, UMat* image_y);
+  double2 evaluatePixel_Front(double2 outCoord, double2 srcSize);
+  void CorrectPerspective (UMat *inMat, UMat *outMat);
+
 
 };
