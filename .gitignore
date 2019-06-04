@@ -1,4 +1,5 @@
 build/
+opt/
 *png
 *user
 Makefile
